@@ -1,0 +1,38 @@
+{
+  "name": "irwh-backend",
+  "version": "1.0.0",
+  "description": "Backend REST API & Realtime Stream Server for i-RWH (Intelligent Rain Water Harvesting) System",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node test/api.test.js"
+  },
+  "keywords": [
+    "iot",
+    "fastify",
+    "influxdb",
+    "rwh",
+    "sensors",
+    "rest-api"
+  ],
+  "author": "Internet Engineering Tech - Polinela",
+  "license": "ISC",
+  "dependencies": {
+    "fastify": "^4.28.1",
+    "fastify-plugin": "^4.5.1",
+    "@fastify/cors": "^9.0.1",
+    "@fastify/helmet": "^11.1.1",
+    "@fastify/rate-limit": "^9.1.0",
+    "@fastify/sensible": "^5.6.0",
+    "@fastify/swagger": "^8.15.0",
+    "@fastify/swagger-ui": "^3.0.0",
+    "@influxdata/influxdb-client": "^1.35.0",
+    "dotenv": "^16.4.7",
+    "mqtt": "^5.10.3"
+  },
+  "devDependencies": {
+    "pino-pretty": "^11.3.0"
+  }
+}
