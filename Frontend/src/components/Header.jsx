@@ -31,25 +31,25 @@ export default function Header({
   const isOnline = gatewayStatus === 'online' || gatewayStatus === '1' || gatewayStatus === 1;
 
   return (
-    <header className="card" style={{ padding: '6px 24px', marginBottom: '20px', minHeight: '120px' }}>
+    <header className="card" style={{ padding: '8px 24px', marginBottom: '20px', minHeight: '96px' }}>
       <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        gap: '20px',
-        minHeight: '110px'
+        gap: '16px',
+        minHeight: '86px'
       }}>
         
-        {/* Brand Logo Pure Banner Image (Sangat Besar Menempati Seluruh Area Kiri) */}
-        <div style={{ display: 'flex', alignItems: 'center', flex: '1 1 500px', maxWidth: '650px' }}>
+        {/* Brand Logo Pure Banner Image (Ukuran Sweet Spot Proporsional) */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
             src="/logo.png"
             alt="Internet Engineering Tech - Intelligent Rain Water Harvesting"
             style={{
-              height: '110px',
+              height: '86px',
               width: 'auto',
-              maxWidth: '100%',
+              maxWidth: '460px',
               objectFit: 'contain',
               display: 'block'
             }}
@@ -57,7 +57,7 @@ export default function Header({
         </div>
 
         {/* Status Indicators & Clock */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginLeft: 'auto' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
           
           {/* Gateway Status Badge */}
           <div className={`status-pill ${isOnline ? 'online' : 'offline'}`}>
@@ -81,14 +81,14 @@ export default function Header({
             alignItems: 'center',
             gap: '6px',
             color: 'var(--text-muted)',
-            fontSize: '0.85rem',
+            fontSize: '0.82rem',
             fontWeight: '600',
             background: 'var(--bg-card-subtle)',
-            padding: '8px 16px',
+            padding: '7px 14px',
             borderRadius: '9999px',
             border: '1px solid var(--border-subtle)'
           }}>
-            <Clock size={15} />
+            <Clock size={14} />
             <span className="tabular-nums">{currentTime || '17:35 WIB'}</span>
           </div>
 
@@ -102,16 +102,16 @@ export default function Header({
               backgroundColor: 'var(--color-orange-light)',
               border: '1px solid var(--color-orange-border)',
               color: 'var(--color-orange)',
-              padding: '9px 20px',
+              padding: '8px 18px',
               borderRadius: '9999px',
-              fontSize: '0.85rem',
+              fontSize: '0.82rem',
               fontWeight: '700',
               cursor: 'pointer',
               boxShadow: '0 1px 3px rgba(234, 88, 12, 0.15)',
               transition: 'all 0.15s ease'
             }}
           >
-            <Sparkles size={16} />
+            <Sparkles size={15} />
             <span>AI Insight</span>
           </button>
 
@@ -122,15 +122,15 @@ export default function Header({
             style={{
               background: 'transparent',
               border: '1px solid var(--border-subtle)',
-              padding: '9px',
-              borderRadius: '8px',
+              padding: '8px',
+              borderRadius: '6px',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               color: 'var(--text-muted)'
             }}
           >
-            <RefreshCw size={17} />
+            <RefreshCw size={16} />
           </button>
         </div>
 
