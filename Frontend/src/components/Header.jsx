@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sprout, Clock, Radio, Key, RefreshCw, Sparkles } from 'lucide-react';
-import { getStoredApiKey, setStoredApiKey } from '../services/api.js';
+import { Clock, RefreshCw, Sparkles } from 'lucide-react';
 
 export default function Header({
   gatewayStatus = 'online',
@@ -10,8 +9,6 @@ export default function Header({
   onOpenAiInsight = () => {}
 }) {
   const [currentTime, setCurrentTime] = useState('');
-  const [showKeyModal, setShowKeyModal] = useState(false);
-  const [apiKeyInput, setApiKeyInput] = useState(getStoredApiKey());
 
   useEffect(() => {
     const updateTime = () => {
@@ -20,7 +17,8 @@ export default function Header({
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit',
-        hour12: false
+        hour12: false,
+        timeZone: 'Asia/Jakarta'
       });
       setCurrentTime(`${timeStr} WIB`);
     };
@@ -29,12 +27,6 @@ export default function Header({
     const timer = setInterval(updateTime, 1000);
     return () => clearInterval(timer);
   }, []);
-
-  const handleSaveKey = () => {
-    setStoredApiKey(apiKeyInput);
-    setShowKeyModal(false);
-    window.location.reload();
-  };
 
   const isOnline = gatewayStatus === 'online' || gatewayStatus === '1' || gatewayStatus === 1;
 
@@ -96,7 +88,7 @@ export default function Header({
             border: '1px solid var(--border-subtle)'
           }}>
             <Clock size={14} />
-            <span className="tabular-nums">{currentTime || '14:30 WIB'}</span>
+            <span className="tabular-nums">{currentTime || '17:00 WIB'}</span>
           </div>
 
           {/* AI Agro-Insight Button */}
@@ -139,79 +131,9 @@ export default function Header({
           >
             <RefreshCw size={15} />
           </button>
-
-          {/* Settings API Key Button */}
-          <button
-            onClick={() => setShowKeyModal(true)}
-            title="Pengaturan API Key"
-            style={{
-              background: 'transparent',
-              border: '1px solid var(--border-subtle)',
-              padding: '6px',
-              borderRadius: '6px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              color: 'var(--text-muted)'
-            }}
-          >
-            <Key size={15} />
-          </button>
         </div>
 
       </div>
-
-      {/* Modal API Key */}
-      {showKeyModal && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(15, 23, 42, 0.6)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 9999
-        }}>
-          <div className="card" style={{ width: '400px', padding: '24px', boxShadow: 'var(--shadow-elevated)' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: '700', marginBottom: '8px' }}>Pengaturan API Key</h3>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '16px' }}>
-              Masukkan API Key backend untuk otorisasi akses telemetri.
-            </p>
-            <input
-              type="text"
-              value={apiKeyInput}
-              onChange={(e) => setApiKeyInput(e.target.value)}
-              placeholder="polinela_irwh_secret_key_2026"
-              style={{
-                width: '100%',
-                padding: '8px 12px',
-                borderRadius: '6px',
-                border: '1px solid var(--border-subtle)',
-                fontSize: '0.85rem',
-                marginBottom: '16px',
-                fontFamily: 'var(--font-main)'
-              }}
-            />
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
-              <button
-                className="btn-range"
-                onClick={() => setShowKeyModal(false)}
-              >
-                Batal
-              </button>
-              <button
-                className="btn-range active"
-                onClick={handleSaveKey}
-              >
-                Simpan & Reload
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </header>
   );
 }
