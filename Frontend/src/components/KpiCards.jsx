@@ -96,12 +96,12 @@ export default function KpiCards({ data = {} }) {
               <div style={{
                 position: 'relative',
                 width: '100%',
-                height: '100%',
+                height: '110%',
                 transition: 'transform 0.55s cubic-bezier(0.4, 0, 0.2, 1)',
                 transformStyle: 'preserve-3d',
                 transform: isFlipped ? 'rotateY(180deg)' : 'none'
               }}>
-                
+
                 {/* 1. FRONT SIDE: Live Metric Card */}
                 <div
                   className="card"
