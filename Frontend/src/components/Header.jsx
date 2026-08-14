@@ -31,28 +31,22 @@ export default function Header({
   const isOnline = gatewayStatus === 'online' || gatewayStatus === '1' || gatewayStatus === 1;
 
   return (
-    <header className="card" style={{ padding: '14px 20px', marginBottom: '20px' }}>
+    <header className="card" style={{ padding: '12px 20px', marginBottom: '20px' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
         
-        {/* Brand Logo & Title */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Brand Logo Pure Banner Image */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
             src="/logo.png"
-            alt="i-RWH Logo"
+            alt="Internet Engineering Tech - Intelligent Rain Water Harvesting"
             style={{
-              width: '38px',
-              height: '38px',
+              height: '44px',
+              width: 'auto',
+              maxWidth: '320px',
               objectFit: 'contain',
-              borderRadius: '8px'
+              display: 'block'
             }}
           />
-          <div>
-            <h1 style={{ fontSize: '1.25rem', fontWeight: '800', letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span>i-RWH</span>
-              <span style={{ color: 'var(--text-light)', fontWeight: '400' }}>•</span>
-              <span style={{ color: 'var(--text-main)', fontWeight: '700' }}>Polinela Lab</span>
-            </h1>
-          </div>
         </div>
 
         {/* Status Indicators & Clock */}
@@ -88,7 +82,7 @@ export default function Header({
             border: '1px solid var(--border-subtle)'
           }}>
             <Clock size={14} />
-            <span className="tabular-nums">{currentTime || '17:00 WIB'}</span>
+            <span className="tabular-nums">{currentTime || '17:30 WIB'}</span>
           </div>
 
           {/* AI Agro-Insight Button */}
