@@ -31,18 +31,18 @@ export default function Header({
   const isOnline = gatewayStatus === 'online' || gatewayStatus === '1' || gatewayStatus === 1;
 
   return (
-    <header className="card" style={{ padding: '12px 20px', marginBottom: '20px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+    <header className="card" style={{ padding: '12px 24px', marginBottom: '20px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
         
-        {/* Brand Logo Pure Banner Image */}
+        {/* Brand Logo Pure Banner Image (Ukuran Lebih Besar & Jelas) */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img
             src="/logo.png"
             alt="Internet Engineering Tech - Intelligent Rain Water Harvesting"
             style={{
-              height: '44px',
+              height: '58px',
               width: 'auto',
-              maxWidth: '320px',
+              maxWidth: '380px',
               objectFit: 'contain',
               display: 'block'
             }}
@@ -74,10 +74,10 @@ export default function Header({
             alignItems: 'center',
             gap: '6px',
             color: 'var(--text-muted)',
-            fontSize: '0.8rem',
+            fontSize: '0.82rem',
             fontWeight: '600',
             background: 'var(--bg-card-subtle)',
-            padding: '5px 12px',
+            padding: '6px 14px',
             borderRadius: '9999px',
             border: '1px solid var(--border-subtle)'
           }}>
@@ -95,16 +95,16 @@ export default function Header({
               backgroundColor: 'var(--color-orange-light)',
               border: '1px solid var(--color-orange-border)',
               color: 'var(--color-orange)',
-              padding: '6px 14px',
+              padding: '7px 16px',
               borderRadius: '9999px',
-              fontSize: '0.78rem',
+              fontSize: '0.8rem',
               fontWeight: '700',
               cursor: 'pointer',
               boxShadow: '0 1px 2px rgba(234, 88, 12, 0.1)',
               transition: 'all 0.15s ease'
             }}
           >
-            <Sparkles size={14} />
+            <Sparkles size={15} />
             <span>AI Insight</span>
           </button>
 
@@ -115,7 +115,7 @@ export default function Header({
             style={{
               background: 'transparent',
               border: '1px solid var(--border-subtle)',
-              padding: '6px',
+              padding: '7px',
               borderRadius: '6px',
               cursor: 'pointer',
               display: 'flex',
@@ -123,7 +123,7 @@ export default function Header({
               color: 'var(--text-muted)'
             }}
           >
-            <RefreshCw size={15} />
+            <RefreshCw size={16} />
           </button>
         </div>
 
