@@ -105,6 +105,40 @@ function mapSensorToTimeline(timelineSlots, stepMs, rawPoints, field) {
   });
 }
 
+/**
+ * Mengatur kepadatan marker/node tanpa mengurangi data grafik.
+ * Semua data tetap digunakan untuk membentuk garis.
+ * Yang dikurangi hanya marker visualnya agar chart tidak terlalu padat.
+ */
+function getPointRadius(range, index) {
+  if (range === '-1h') {
+    return index % 5 === 0 ? 2.2 : 0;
+    // Timeline 1 menit → marker setiap 5 menit
+  }
+
+  if (range === '-6h') {
+    return index % 3 === 0 ? 2.2 : 0;
+    // Timeline 5 menit → marker setiap 15 menit
+  }
+
+  if (range === '-24h') {
+    return index % 3 === 0 ? 2.2 : 0;
+    // Timeline 20 menit → marker setiap ±1 jam
+  }
+
+  if (range === '-7d') {
+    return index % 6 === 0 ? 2.2 : 0;
+    // Timeline 2 jam → marker setiap ±12 jam
+  }
+
+  if (range === '-30d') {
+    return index % 3 === 0 ? 2.2 : 0;
+    // Timeline 8 jam → marker setiap ±24 jam
+  }
+
+  return 0;
+}
+
 export default function HistoricalCharts({
   range = '-24h',
   onRangeChange = () => {},
@@ -172,8 +206,8 @@ export default function HistoricalCharts({
         backgroundColor: '#ea580c',
         borderWidth: 2.2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true
       },
       {
@@ -183,8 +217,8 @@ export default function HistoricalCharts({
         backgroundColor: '#16a34a',
         borderWidth: 2.2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true
       }
     ]
@@ -203,8 +237,8 @@ export default function HistoricalCharts({
         backgroundColor: '#0284c7',
         borderWidth: 2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true
       },
       {
@@ -214,8 +248,8 @@ export default function HistoricalCharts({
         backgroundColor: '#9333ea',
         borderWidth: 2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true
       }
     ]
@@ -234,8 +268,8 @@ export default function HistoricalCharts({
         backgroundColor: '#059669',
         borderWidth: 2.2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true,
         yAxisID: 'y'
       },
@@ -246,8 +280,8 @@ export default function HistoricalCharts({
         backgroundColor: '#0284c7',
         borderWidth: 2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true,
         yAxisID: 'y'
       }
@@ -268,8 +302,8 @@ export default function HistoricalCharts({
         fill: true,
         borderWidth: 2.2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3.5 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true
       }
     ]
@@ -288,8 +322,8 @@ export default function HistoricalCharts({
         backgroundColor: '#7c3aed',
         borderWidth: 2,
         tension: 0.3,
-        pointRadius: range === '-1h' ? 3 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true,
         yAxisID: 'y'
       },
@@ -301,7 +335,7 @@ export default function HistoricalCharts({
         borderWidth: 1.8,
         borderDash: [4, 4],
         tension: 0.3,
-        pointRadius: range === '-1h' ? 2.5 : 1,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
         pointHoverRadius: 5,
         spanGaps: true,
         yAxisID: 'y1'
@@ -324,8 +358,8 @@ export default function HistoricalCharts({
         fill: true,
         borderWidth: 2.2,
         tension: 0.35,
-        pointRadius: range === '-1h' ? 3.5 : (range === '-6h' ? 2 : 1.5),
-        pointHoverRadius: 6,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
+        pointHoverRadius: 5,
         spanGaps: true,
         yAxisID: 'y'
       },
@@ -342,7 +376,7 @@ export default function HistoricalCharts({
         borderWidth: 2,
         borderDash: [4, 4],
         tension: 0.3,
-        pointRadius: range === '-1h' ? 2.5 : 1,
+        pointRadius: (context) => getPointRadius(range, context.dataIndex),
         pointHoverRadius: 5,
         spanGaps: true,
         yAxisID: 'y1'
