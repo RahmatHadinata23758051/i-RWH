@@ -31,18 +31,25 @@ export default function Header({
   const isOnline = gatewayStatus === 'online' || gatewayStatus === '1' || gatewayStatus === 1;
 
   return (
-    <header className="card" style={{ padding: '12px 24px', marginBottom: '20px' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+    <header className="card" style={{ padding: '8px 24px', marginBottom: '20px', minHeight: '90px' }}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+        gap: '16px',
+        minHeight: '80px'
+      }}>
         
-        {/* Brand Logo Pure Banner Image (Ukuran Lebih Besar & Jelas) */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+        {/* Brand Logo Pure Banner Image (Sangat Besar Sesuai Area Kotak Ungu) */}
+        <div style={{ display: 'flex', alignItems: 'center', flex: '0 0 auto' }}>
           <img
             src="/logo.png"
             alt="Internet Engineering Tech - Intelligent Rain Water Harvesting"
             style={{
-              height: '58px',
+              height: '78px',
               width: 'auto',
-              maxWidth: '380px',
+              maxWidth: '480px',
               objectFit: 'contain',
               display: 'block'
             }}
@@ -77,7 +84,7 @@ export default function Header({
             fontSize: '0.82rem',
             fontWeight: '600',
             background: 'var(--bg-card-subtle)',
-            padding: '6px 14px',
+            padding: '7px 14px',
             borderRadius: '9999px',
             border: '1px solid var(--border-subtle)'
           }}>
@@ -95,12 +102,12 @@ export default function Header({
               backgroundColor: 'var(--color-orange-light)',
               border: '1px solid var(--color-orange-border)',
               color: 'var(--color-orange)',
-              padding: '7px 16px',
+              padding: '8px 18px',
               borderRadius: '9999px',
-              fontSize: '0.8rem',
+              fontSize: '0.82rem',
               fontWeight: '700',
               cursor: 'pointer',
-              boxShadow: '0 1px 2px rgba(234, 88, 12, 0.1)',
+              boxShadow: '0 1px 3px rgba(234, 88, 12, 0.15)',
               transition: 'all 0.15s ease'
             }}
           >
@@ -115,7 +122,7 @@ export default function Header({
             style={{
               background: 'transparent',
               border: '1px solid var(--border-subtle)',
-              padding: '7px',
+              padding: '8px',
               borderRadius: '6px',
               cursor: 'pointer',
               display: 'flex',
