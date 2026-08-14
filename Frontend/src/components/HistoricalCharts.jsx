@@ -12,7 +12,7 @@ import {
   Filler
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import { Download, CloudSun, Droplets, CloudRain, LayoutGrid } from 'lucide-react';
+import { Download, CloudSun, Droplets, CloudRain, LayoutGrid, FileSpreadsheet, X, Check } from 'lucide-react';
 import { getExportCsvUrl } from '../services/api.js';
 
 // Registrasi komponen Chart.js
@@ -145,7 +145,10 @@ export default function HistoricalCharts({
   historyData = {}
 }) {
   const [activeCategory, setActiveCategory] = useState('all'); // 'all', 'climate', 'water', 'rain'
-  const [exportSensor, setExportSensor] = useState('sensor1');
+  const [showExportModal, setShowExportModal] = useState(false);
+  const [selectedSensorExport, setSelectedSensorExport] = useState('all');
+  const [selectedRangeExport, setSelectedRangeExport] = useState(range);
+  const [isExporting, setIsExporting] = useState(false);
 
   const categories = [
     { id: 'all', label: 'Semua Parameter', icon: <LayoutGrid size={14} /> },
@@ -160,6 +163,15 @@ export default function HistoricalCharts({
     { label: '24 Jam', value: '-24h' },
     { label: '7 Hari', value: '-7d' },
     { label: '30 Hari', value: '-30d' }
+  ];
+
+  const sensorExportOptions = [
+    { id: 'all', label: 'Semua Sensor (Consolidated 5 Sensor)' },
+    { id: 'sensor1', label: 'Sensor 1: Suhu & Kelembapan Internal GH' },
+    { id: 'sensor2', label: 'Sensor 2: Suhu & Kelembapan Luar Ruang' },
+    { id: 'sensor3', label: 'Sensor 3: Kualitas Air & Nutrisi (EC, TDS, Salinitas)' },
+    { id: 'sensor4', label: 'Sensor 4: pH & Potensial Redoks (ORP)' },
+    { id: 'sensor5', label: 'Sensor 5: Stasiun Presipitasi Curah Hujan' }
   ];
 
   // Helper formatting waktu label sumbu X ke zona waktu Asia/Jakarta (WIB)
@@ -444,9 +456,27 @@ export default function HistoricalCharts({
     }
   });
 
-  const handleDownloadCsv = () => {
-    const url = getExportCsvUrl(exportSensor, range);
-    window.open(url, '_blank');
+  const handleOpenExport = () => {
+    setSelectedRangeExport(range);
+    setShowExportModal(true);
+  };
+
+  const handleExecuteDownload = () => {
+    setIsExporting(true);
+    const url = getExportCsvUrl(selectedSensorExport, selectedRangeExport);
+    
+    // Download via hidden anchor
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `irwh_${selectedSensorExport}_${selectedRangeExport}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    setTimeout(() => {
+      setIsExporting(false);
+      setShowExportModal(false);
+    }, 1200);
   };
 
   return (
@@ -480,7 +510,17 @@ export default function HistoricalCharts({
           </div>
 
           {/* Export CSV Button */}
-          <button className="btn-export" onClick={handleDownloadCsv}>
+          <button
+            className="btn-export"
+            onClick={handleOpenExport}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              cursor: 'pointer'
+            }}
+            title="Download Rekaman Data Historis dalam Format CSV"
+          >
             <Download size={14} />
             <span>CSV</span>
           </button>
@@ -606,6 +646,152 @@ export default function HistoricalCharts({
         )}
 
       </div>
+
+      {/* 4. MODAL DIALOG EKSPOR CSV */}
+      {showExportModal && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          backgroundColor: 'rgba(15, 23, 42, 0.65)',
+          backdropFilter: 'blur(3px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: '16px'
+        }}>
+          <div className="card" style={{
+            width: '100%',
+            maxWidth: '460px',
+            padding: '24px',
+            boxShadow: 'var(--shadow-elevated)',
+            border: '1px solid var(--border-subtle)',
+            backgroundColor: '#ffffff'
+          }}>
+            {/* Header Modal */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <div style={{
+                  padding: '8px',
+                  backgroundColor: 'var(--color-orange-light)',
+                  borderRadius: '8px',
+                  color: 'var(--color-orange)'
+                }}>
+                  <FileSpreadsheet size={20} />
+                </div>
+                <div>
+                  <h3 style={{ fontSize: '1rem', fontWeight: '800', margin: 0 }}>Ekspor Data Historis CSV</h3>
+                  <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', margin: 0 }}>Unduh rekaman data time-series InfluxDB</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowExportModal(false)}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  color: 'var(--text-muted)',
+                  padding: '4px'
+                }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Pilihan Sensor */}
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: '700', marginBottom: '6px', color: 'var(--text-main)' }}>
+                Pilih Parameter Sensor:
+              </label>
+              <select
+                value={selectedSensorExport}
+                onChange={(e) => setSelectedSensorExport(e.target.value)}
+                style={{
+                  width: '100%',
+                  padding: '9px 12px',
+                  borderRadius: '8px',
+                  border: '1px solid var(--border-subtle)',
+                  fontSize: '0.82rem',
+                  fontFamily: 'var(--font-main)',
+                  color: 'var(--text-main)',
+                  backgroundColor: '#ffffff',
+                  outline: 'none'
+                }}
+              >
+                {sensorExportOptions.map((opt) => (
+                  <option key={opt.id} value={opt.id}>
+                    {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Pilihan Rentang Waktu */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{ display: 'block', fontSize: '0.78rem', fontWeight: '700', marginBottom: '6px', color: 'var(--text-main)' }}>
+                Pilih Rentang Waktu:
+              </label>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '6px' }}>
+                {rangeButtons.map((btn) => (
+                  <button
+                    key={btn.value}
+                    type="button"
+                    onClick={() => setSelectedRangeExport(btn.value)}
+                    style={{
+                      padding: '8px 4px',
+                      borderRadius: '6px',
+                      fontSize: '0.72rem',
+                      fontWeight: selectedRangeExport === btn.value ? '700' : '500',
+                      cursor: 'pointer',
+                      border: selectedRangeExport === btn.value ? '1px solid var(--color-orange-border)' : '1px solid var(--border-subtle)',
+                      backgroundColor: selectedRangeExport === btn.value ? 'var(--color-orange-light)' : '#ffffff',
+                      color: selectedRangeExport === btn.value ? 'var(--color-orange)' : 'var(--text-muted)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {btn.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Tombol Aksi */}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+              <button
+                type="button"
+                className="btn-range"
+                onClick={() => setShowExportModal(false)}
+                style={{ padding: '8px 16px', fontSize: '0.8rem' }}
+              >
+                Batal
+              </button>
+              <button
+                type="button"
+                onClick={handleExecuteDownload}
+                disabled={isExporting}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  backgroundColor: 'var(--color-orange)',
+                  color: '#ffffff',
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px 18px',
+                  fontSize: '0.8rem',
+                  fontWeight: '700',
+                  cursor: isExporting ? 'not-allowed' : 'pointer',
+                  boxShadow: '0 1px 3px rgba(234, 88, 12, 0.3)',
+                  transition: 'background 0.15s ease'
+                }}
+              >
+                <Download size={14} />
+                <span>{isExporting ? 'Mengunduh...' : 'Unduh File CSV'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

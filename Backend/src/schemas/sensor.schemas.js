@@ -45,8 +45,8 @@ export const exportQuerySchema = {
   properties: {
     sensorId: {
       type: 'string',
-      enum: ['sensor1', 'sensor2', 'sensor3', 'sensor4', 'sensor5'],
-      description: 'Identifier sensor yang akan diekspor'
+      enum: ['all', 'sensor1', 'sensor2', 'sensor3', 'sensor4', 'sensor5'],
+      description: 'Identifier sensor yang akan diekspor (sensor1..sensor5 atau all)'
     },
     from: {
       type: 'string',
@@ -60,7 +60,7 @@ export const exportQuerySchema = {
     },
     interval: {
       type: 'string',
-      default: '1h',
+      default: 'auto',
       description: 'Window interval agregasi (misal: 5m, 1h, 1d)'
     },
     aggregate: {
